@@ -1,6 +1,7 @@
 import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { Gateway } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
+import knex from "knex";
 import {
   AuthenticationPublicData,
   AuthenticationHeaderParameters,
@@ -8,6 +9,11 @@ import {
 
 export const databaseClient = new SQLDatabase("url", {
   migrations: "./migrations",
+});
+
+export const databaseORM = knex({
+  client: "pg",
+  connection: databaseClient.connectionString,
 });
 
 export const authenticationHandler = authHandler<
