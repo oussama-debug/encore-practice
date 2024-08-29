@@ -1,7 +1,6 @@
 import { api, APIError } from "encore.dev/api";
-import { databaseClient, databaseORM } from "@/gateway/index";
+import { databaseORM } from "@/gateway/index";
 import {
-  User,
   APIUsersResponse,
   APICreateUserBodyParameters,
   APIUserResponse,
@@ -10,9 +9,8 @@ import {
 export const signup = api(
   { expose: true, auth: false, method: "POST", path: "/api/v1/user" },
   async (parameters: APICreateUserBodyParameters): Promise<APIUserResponse> => {
-    const userFindOneByUsernameORClerkId = await databaseORM
+    const userFindOneByUsernameORClerkId = await databaseORM("users")
       .select("*")
-      .from("users")
       .where("user_clerk_id", parameters.user_clerk_id)
       .orWhere("username", parameters.username)
       .first();
@@ -38,8 +36,7 @@ export const signup = api(
 export const users = api(
   { expose: true, auth: true, method: "GET", path: "/api/v1/users" },
   async (): Promise<APIUsersResponse> => {
-    const users = await databaseORM.select("*").from("users");
-
+    const users = await databaseORM("users").select("*");
     return { data: { users } };
   }
 );

@@ -1,4 +1,4 @@
-import { User } from "@/gateway/users";
+import { User } from "@/gateway/common/users";
 import { Header } from "encore.dev/api";
 
 export interface AuthenticationHeaderParameters {
