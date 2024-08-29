@@ -1,7 +1,7 @@
 CREATE TABLE users (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_clerk_id TEXT UNIQUE NOT NULL,
-    stripe_customer_id TEXT UNIQUE NOT NULL,
+    stripe_customer_id TEXT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
