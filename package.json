@@ -1,0 +1,22 @@
+{
+  "name": "zenlanes-services",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Zenlanes Gateway & services",
+  "license": "MPL-2.0",
+  "type": "module",
+  "devDependencies": {
+    "@types/luxon": "^3.0.1",
+    "@types/node": "^20.5.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "encore.dev": "^1.39.8",
+    "knex": "^3.0.1",
+    "luxon": "^3.0.4",
+    "pg": "^8.11.3"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.13.0"
+  }
+}
