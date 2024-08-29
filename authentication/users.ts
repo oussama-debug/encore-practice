@@ -1,10 +1,10 @@
 import { api, APIError } from "encore.dev/api";
-import { databaseORM } from "@/gateway/index";
+import { databaseORM } from "@/authentication/index";
 import {
   APIUsersResponse,
   APICreateUserBodyParameters,
   APIUserResponse,
-} from "@/gateway/common/users";
+} from "@/authentication/common/users";
 
 export const signup = api(
   { expose: true, auth: false, method: "POST", path: "/api/v1/user" },
