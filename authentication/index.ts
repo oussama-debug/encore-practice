@@ -2,7 +2,7 @@ import { SQLDatabase } from "encore.dev/storage/sqldb";
 import { APIError, Gateway } from "encore.dev/api";
 import { authHandler } from "encore.dev/auth";
 import knex from "knex";
-import { Effect, pipe } from "effect";
+import { Effect } from "effect";
 import { verifyToken } from "@clerk/backend";
 import { createClerkClient } from "@clerk/backend";
 import {
