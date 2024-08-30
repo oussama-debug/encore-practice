@@ -13,8 +13,10 @@
 CREATE TABLE IF NOT EXISTS accounts (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
-    stripe_account_id TEXT NOT NULL,
-    billing_details JSONB NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    stripe_account_id TEXT,
+    sha256 TEXT NOT NULL UNIQUE,
+    billing_details JSONB,
     name TEXT NOT NULL,
-    owner_id UUID NOT NULL UNIQUE
+    owner_id BIGINT NOT NULL UNIQUE
 );

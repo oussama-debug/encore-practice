@@ -1,10 +1,11 @@
 import { api, APIError } from "encore.dev/api";
-import { databaseORM } from "@/authentication/index";
+import { clerkClient, databaseORM } from "@/authentication/index";
 import {
   APIUsersResponse,
   APICreateUserBodyParameters,
   APIUserResponse,
-} from "@/authentication/common/users";
+} from "@/packages/types/user";
+import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 
 export const signup = api(
   { expose: true, auth: false, method: "POST", path: "/api/v1/user" },
@@ -21,13 +22,26 @@ export const signup = api(
         `User with id -> ${parameters.user_clerk_id} already exists`
       );
 
+    const clerkUser = await clerkClient.users.getUser(parameters.user_clerk_id);
+
     // saving user and returning all fields
     const user = await databaseORM("users")
       .insert({
         user_clerk_id: parameters.user_clerk_id,
         username: parameters.username,
+        first_name: clerkUser.firstName!,
+        last_name: clerkUser.lastName!,
       })
       .returning("*");
+
+    // getting user data
+
+    await TOPICPaymentsAccount.publish({
+      userID: user[0].id!,
+      user_email: clerkUser.primaryEmailAddress?.emailAddress!,
+      user_fullname: `${clerkUser.firstName} ${clerkUser.lastName}`,
+      event: "create-payments-account",
+    });
 
     return { data: { user: user[0] } };
   }
