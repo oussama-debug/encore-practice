@@ -1,16 +1,18 @@
 import { Subscription } from "encore.dev/pubsub";
-import { Topic } from "encore.dev/pubsub";
-import { SUBCreateCustomerAndAccountEvent } from "./common/account/account";
+import { stripeClient } from ".";
+import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 
-export const paymentsAccount = new Topic<SUBCreateCustomerAndAccountEvent>(
-  "payments-account",
-  {
-    deliveryGuarantee: "exactly-once",
-  }
-);
-
-const _ = new Subscription(paymentsAccount, "create-account", {
+const _ = new Subscription(TOPICPaymentsAccount, "create-payments-account", {
   handler: async (event) => {
-    // TODO: create stripe customer and account
+    switch (event.event) {
+      case "create-payments-account": {
+        const stripeCustomerId = await stripeClient.customers.create({
+          email: event.user_email,
+          metadata: { id: event.userID },
+        });
+
+        break;
+      }
+    }
   },
 });

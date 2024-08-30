@@ -4,11 +4,11 @@ import { authHandler } from "encore.dev/auth";
 import knex from "knex";
 import { Effect } from "effect";
 import { verifyToken } from "@clerk/backend";
-import { createClerkClient } from "@clerk/backend";
 import {
   AuthenticationPublicData,
   AuthenticationHeaderParameters,
-} from "./common/authentication";
+} from "@/packages/types/user";
+import { createClerkClient } from "@clerk/backend";
 import { clerkSecretKey } from "./secrets";
 
 export const databaseClient = new SQLDatabase("url", {
@@ -65,7 +65,8 @@ export const authenticationHandler = authHandler<
     userID: user?.id!,
     username: user?.username!,
     user_clerk_id: user?.user_clerk_id!,
-    stripe_customer_id: user?.stripe_customer_id ?? "",
+    first_name: user?.first_name!,
+    last_name: user?.last_name!,
     created_at: user?.created_at!,
     updated_at: user?.updated_at!,
   };
