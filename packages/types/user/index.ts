@@ -1,6 +1,6 @@
-import { Knex } from "knex";
 import { Attribute } from "encore.dev/pubsub";
 import { Header } from "encore.dev/api";
+import { Knex } from "knex";
 
 export interface User {
   id: string;
