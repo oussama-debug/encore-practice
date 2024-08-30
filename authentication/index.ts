@@ -11,7 +11,7 @@ import {
 import { createClerkClient } from "@clerk/backend";
 import { clerkSecretKey } from "./secrets";
 
-export const databaseClient = new SQLDatabase("url", {
+export const databaseClient = new SQLDatabase("users", {
   migrations: "./migrations",
 });
 
