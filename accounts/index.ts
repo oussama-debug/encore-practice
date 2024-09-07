@@ -1,17 +1,15 @@
-import { SQLDatabase } from "encore.dev/storage/sqldb";
-import knex from "knex";
-import Stripe from "stripe";
-import { stripeSecretKey } from "./secrets";
 
-export const stripeClient = new Stripe(stripeSecretKey(), {
-  apiVersion: "2024-06-20",
-});
+import { Subscription } from "encore.dev/pubsub";
+import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
+import { createPaymentsAccount } from "./modules/payments";
 
-export const databaseClient = new SQLDatabase("accounts", {
-  migrations: "./migrations",
-});
-
-export const databaseORM = knex({
-  client: "pg",
-  connection: databaseClient.connectionString,
+const _ = new Subscription(TOPICPaymentsAccount, "create-payments-account", {
+  handler: async (event) => {
+    switch (event.event) {
+      case "create-payments-account": {
+        await createPaymentsAccount(event);
+        break;
+      }
+    }
+  },
 });
