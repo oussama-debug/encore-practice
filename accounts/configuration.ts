@@ -9,7 +9,7 @@ export const stripeClient = new Stripe(stripeSecretKey(), {
   apiVersion: "2024-06-20",
 });
 
-export const databaseClient = new SQLDatabase("accounts", {
+export const databaseClient = new SQLDatabase("zenlanes_workspaces", {
   migrations: "./migrations",
 });
 

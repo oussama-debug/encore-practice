@@ -25,7 +25,7 @@ export interface APICreateUserBodyParameters {
   user_clerk_id: string;
   username: string;
 }
-export interface AuthenticationPublicData extends User {
+export interface AuthenticationPublicData extends Partial<User> {
   userID: string; // a constraint from encore.dev
 }
 

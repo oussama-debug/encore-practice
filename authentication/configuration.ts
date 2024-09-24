@@ -4,7 +4,7 @@ import knex from "knex";
 
 export const clerkSecretKey = secret("CLERK_SECRET_KEY");
 
-export const databaseClient = new SQLDatabase("users", {
+export const databaseClient = new SQLDatabase("zenlanes_users", {
   migrations: "./migrations",
 });
 

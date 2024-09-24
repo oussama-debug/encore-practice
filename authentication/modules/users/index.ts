@@ -7,10 +7,16 @@ import {
 import { APIError } from "encore.dev/api";
 import { clerkClient } from "@/authentication/middlewares/authentication";
 import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
+import { getAuthData } from "~encore/auth";
 
 export async function getUsersList(): Promise<APIUsersResponse> {
   const users = await databaseORM("users").select("*");
   return { data: { users } };
+}
+
+export async function getUser(): Promise<APIUserResponse> {
+  const auth = getAuthData();
+  return { data: { user: {} as any } };
 }
 
 export async function createUser(
@@ -24,8 +30,8 @@ export async function createUser(
 
   // if user exists under same username or clerk id
   if (userFindOneByUsernameORClerkId)
-    APIError.alreadyExists(
-      `User with id -> ${parameters.user_clerk_id} already exists`
+    throw APIError.alreadyExists(
+      `User with id -> ${parameters.user_clerk_id} and username -> ${parameters.username} already exists`
     );
 
   const clerkUser = await clerkClient.users.getUser(parameters.user_clerk_id);
