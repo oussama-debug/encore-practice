@@ -1,22 +1,27 @@
 import { databaseORM } from "@/authentication/configuration";
 import {
-  APIUsersResponse,
-  APICreateUserBodyParameters,
-  APIUserResponse,
+  type APICreateUserBodyParameters,
+  type APIUserResponse,
+  type User,
 } from "@/packages/types/user";
 import { APIError } from "encore.dev/api";
 import { clerkClient } from "@/authentication/middlewares/authentication";
 import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 import { getAuthData } from "~encore/auth";
 
-export async function getUsersList(): Promise<APIUsersResponse> {
-  const users = await databaseORM("users").select("*");
-  return { data: { users } };
-}
-
 export async function getUser(): Promise<APIUserResponse> {
   const auth = getAuthData();
-  return { data: { user: {} as any } };
+  // user already setup
+  if (auth && auth.user_clerk_id) {
+    const userFindOneByUsernameORClerkId = await databaseORM("users")
+      .select("*")
+      .where("user_clerk_id", auth.id)
+      .orWhere("username", auth.username)
+      .first();
+
+    return { data: { user: userFindOneByUsernameORClerkId! } };
+  }
+  return { data: { user: null } };
 }
 
 export async function createUser(
@@ -31,7 +36,7 @@ export async function createUser(
   // if user exists under same username or clerk id
   if (userFindOneByUsernameORClerkId)
     throw APIError.alreadyExists(
-      `User with id -> ${parameters.user_clerk_id} and username -> ${parameters.username} already exists`
+      `User with id -> ${parameters.user_clerk_id} or username -> ${parameters.username} already exists`
     );
 
   const clerkUser = await clerkClient.users.getUser(parameters.user_clerk_id);

@@ -31,10 +31,7 @@ export interface AuthenticationPublicData extends Partial<User> {
 
 // Responses
 export interface APIUserResponse {
-  data: { user: User };
-}
-export interface APIUsersResponse {
-  data: { users: User[] };
+  data: { user: User | null };
 }
 
 export interface AuthenticationHeaderParameters {

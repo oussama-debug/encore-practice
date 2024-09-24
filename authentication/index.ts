@@ -1,10 +1,6 @@
 import { Gateway } from "encore.dev/api";
 import { api } from "encore.dev/api";
-import {
-  getUsersList,
-  createUser,
-  getUser,
-} from "@/authentication/modules/users";
+import { createUser, getUser } from "@/authentication/modules/users";
 import { authenticationHandler } from "@/authentication/middlewares/authentication";
 import {
   APICreateUserBodyParameters,
@@ -20,12 +16,7 @@ export const signup = api(
     createUser(parameters)
 );
 
-export const user = api(
+export const user_ = api(
   { expose: true, auth: true, method: "GET", path: "/api/v1/user" },
-  getUser
-);
-
-export const users = api(
-  { expose: true, auth: true, method: "GET", path: "/api/v1/users" },
-  getUsersList
+  async (): Promise<APIUserResponse> => getUser()
 );
