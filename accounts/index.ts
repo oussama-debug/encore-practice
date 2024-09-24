@@ -1,4 +1,3 @@
-
 import { Subscription } from "encore.dev/pubsub";
 import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 import { createPaymentsAccount } from "./modules/payments";
