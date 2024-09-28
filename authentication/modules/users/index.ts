@@ -8,6 +8,7 @@ import { APIError } from "encore.dev/api";
 import { clerkClient } from "@/authentication/middlewares/authentication";
 import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 import { getAuthData } from "~encore/auth";
+import { TOPICStoreAccount } from "@/packages/topics/accounts/store";
 
 export async function getUser(): Promise<APIUserResponse> {
   const auth = getAuthData();
@@ -57,6 +58,13 @@ export async function createUser(
     user_email: clerkUser.primaryEmailAddress?.emailAddress!,
     user_fullname: `${clerkUser.firstName} ${clerkUser.lastName}`,
     event: "create-payments-account",
+  });
+
+  await TOPICStoreAccount.publish({
+    design_title: `${clerkUser.firstName!} ${clerkUser.lastName!}`,
+    design_description: ``,
+    design_image: "none",
+    event: "create-store-account",
   });
 
   return { data: { user: user[0] } };

@@ -1,9 +1,9 @@
-
 import { Subscription } from "encore.dev/pubsub";
 import { TOPICPaymentsAccount } from "@/packages/topics/accounts/payments";
 import { createPaymentsAccount } from "./modules/payments";
+import { TOPICStoreAccount } from "@/packages/topics/accounts/store";
 
-const _ = new Subscription(TOPICPaymentsAccount, "create-payments-account", {
+const paymentsAndAccountSettings_ = new Subscription(TOPICPaymentsAccount, "payments-account", {
   handler: async (event) => {
     switch (event.event) {
       case "create-payments-account": {
@@ -13,3 +13,13 @@ const _ = new Subscription(TOPICPaymentsAccount, "create-payments-account", {
     }
   },
 });
+
+const storeSettings_ = new Subscription(TOPICStoreAccount, 'store-account', {
+  handler: async(event) => {
+    switch(event.event) {
+      case 'create-store-account': {
+        break;
+      }
+    }
+  }
+})

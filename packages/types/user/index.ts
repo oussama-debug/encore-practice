@@ -14,9 +14,16 @@ export interface User {
 
 // Pubsub Topics
 export interface TOPICAccountEvents {
-  userID: string;
-  user_email: string;
-  user_fullname: string;
+  userID?: string;
+  user_email?: string;
+  user_fullname?: string;
+  event: Attribute<string>;
+}
+
+export interface TOPICStoreEvents {
+  design_title?: string;
+  design_description?: string;
+  design_image?: string;
   event: Attribute<string>;
 }
 
