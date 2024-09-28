@@ -8,7 +8,7 @@
 	},
 	"global_cors": {
 		"debug": true,
-		"allow_origins_without_credentials": ["http://localhost:3000", "https://*.zenlanes.com"],
-		"allow_origins_with_credentials": ["http://localhost:3000", "https://*.zenlanes.com"]
+		"allow_origins_without_credentials": ["http://localhost:3000", "https://www.zenlanes.com", "https://*.zenlanes.com"],
+		"allow_origins_with_credentials": ["http://localhost:3000", "https://www.zenlanes.com", "https://*.zenlanes.com"]
 	}
 }
